@@ -17,7 +17,7 @@
 		<CVENames></CVENames>
 		<SANSID></SANSID>
 		<MIMEField>
-			<Name>X-Fixlet-Requested-ID</Name>
+			<Name>x-fixlet-requested-id</Name>
 			<Value>2003</Value>
 		</MIMEField>
 		<MIMEField>

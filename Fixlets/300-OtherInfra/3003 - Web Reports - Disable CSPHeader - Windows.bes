@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Web Reports Setting - Disable CSPHeader - Windows</Title>
+		<Description><![CDATA[<P>Disable the CSPHeader field in BigFix Web Reports.</P>
+<P>With the header enabled, a Content-Security-Policy prevents embedding JavaScript from remote sources into reports (like jquery or dataTables), or using functions like eval() within embedded JavaScript (as used in several custom Compliance reports from Lee Wei).</P>]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists service "BESWebReportsServer"</Relevance>
+		<Relevance>not exists values "EnableCSPHeader" whose (it as string = "0") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports" of registry</Relevance>
+		<Category></Category>
+		<DownloadSize>0</DownloadSize>
+		<Source>Internal</Source>
+		<SourceID>jgstew</SourceID>
+		<SourceReleaseDate>2017-06-21</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-bfsync-source-actionsite</Name>
+			<Value>http://BES-Dev-Root:52311/cgi-bin/bfgather.exe/actionsite</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-bfsync-source-modification-time</Name>
+			<Value>Tue, 15 Nov 2022 16:17:04 +0000</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-bfsync-source-id</Name>
+			<Value>94</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 03 Jun 2025 15:25:47 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports]" "EnableCSPHeader"="0"
+
+</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

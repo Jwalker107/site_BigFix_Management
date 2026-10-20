@@ -18,7 +18,7 @@
 <TD>Secure Parameter3</TD>
 <TD><INPUT id=param3 type=password name=param3 required="true" secure="true"></TD></TR></TBODY></TABLE><!-- for testing in browser outside of console --><!-- <button id="submit" onclick=takeAction()>Click Me</button> --><script>
 
- document.body.ontakeaction = function() { return takeAction(); }
+ document.body.ontakeaction = function() { return takeAction(); };
 
  function takeAction() {
  	var block_action=false; parameters={}; secureparameters={};
@@ -35,6 +35,7 @@
 			}
 
 	}
+
 	if (toBool(secure)) {
 		TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", parameters, secureparameters );
 		} else {

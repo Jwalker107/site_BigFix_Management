@@ -27,7 +27,7 @@
 				<Link>here</Link>
 				<PostLink> to deploy this action.</PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Exclude yara64.exe from Ms Antimalware On-Access scans
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 action uses wow64 redirection false
 waithidden powershell.exe -ExecutionPolicy Bypass Add-MpPreference -ExclusionPath '{pathname of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)}\:{{ScanTrigger:OnAccess}'</ActionScript>
 		</DefaultAction>

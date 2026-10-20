@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>BES Server/Relay Gather Status</Title>
+		<Description><![CDATA[Provides a listing of Site Gather statuses, where the updated site actually lives in the wwwrootbes filesystem, and a site ID to URL mapping.&nbsp; This is anticipated to be useful in determining when sites are not replicating between Servers, and possibly in download caching (particularly when RHSMPlugin needs a cache flush following an RHEL site update)]]></Description>
+		<Relevance>if exists property "in proxy agent context" then not in proxy agent context else true</Relevance>
+		<Relevance>exists main gather service or exists relay service</Relevance>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2017-03-08</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Tue, 20 Oct 2026 14:43:08 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Full Site Gather Status" ID="1" EvaluationPeriod="PT6H">(node values of attributes "SiteID"  of item 0 of it, (if (exists node values of child nodes of items 1 of it) then node values of child nodes of items 1 of it else "Unknown Site"),  (if exists node value of attribute "CommittedLocation" of item 0 of it then node value of attribute "CommittedLocation" of item 0 of it else "Unknown Location"), (if exists node value of attribute "CommittedVersion" of item 0 of it then node value of attribute "CommittedVersion" of item 0 of it else "Unknown"), (if exists node value of attribute "CommittedManyVersion" of item 0 of it then node value of attribute "CommittedManyVersion" of item 0 of it else "Unknown"), (if exists node value of attribute "Status" of item 0 of it then node value of attribute "Status" of item 0 of it else "Unknown"), (if exists node value of attribute "LastRequestedTime" of item 0 of it then node value of attribute "LastRequestedTime" of item 0 of it else "Unknown")) whose (true) of (child nodes of selects "GatherStatus" of xml documents of files "GatherState.xml" of folders "Mirror Server\inbox" of parent folders of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client as string), child nodes of selects "URLtoID" of xml documents of files "bfemapfile.xml" of folders "Mirror Server\inbox" of parent folders of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client as string)) whose (node value of attribute "SiteID" of item 0 of it = node value of attribute "ID" of item 1 of it) </Property>
+		<Property Name="Site ID to URL Mapping" ID="2" EvaluationPeriod="P1D">(node values of attributes of it, (if exists node values of child node of it then node value of child node of it else "Unknown"))of child nodes of selects "URLtoID" of xml documents of files "bfemapfile.xml" of folders "Mirror Server\inbox" of parent folders of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client as string)</Property>
+	</Analysis>
+</BES>

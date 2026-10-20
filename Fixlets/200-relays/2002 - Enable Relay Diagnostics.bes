@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>PRB: Enable Relay Diagnostics</Title>
+		<Description><![CDATA[Enable BigFix Relay Diagnostics]]></Description>
+		<Relevance>exists relay service or exists main gather service</Relevance>
+		<Relevance>not exists setting "_BESRelay_Diagnostics_Enable" whose (value of it as integer = 1) of client</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-08-21</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-bfsync-source-actionsite</Name>
+			<Value>http://BES-Dev-Root:52311/cgi-bin/bfgather.exe/actionsite</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-bfsync-source-modification-time</Name>
+			<Value>Tue, 15 Nov 2022 16:20:52 +0000</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-bfsync-source-id</Name>
+			<Value>6549</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Thu, 02 Feb 2023 15:19:26 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+action parameter query "password" with description "Set a Relay Diagnostics Password"
+
+if {parameter "password"=""}
+ setting delete "_BESRelay_Diagnostics_Password" on "{parameter "action issue date" of action}" for client
+ else
+ setting "_BESRelay_Diagnostics_Password"="{parameter "password" of action}" on "{parameter "action issue date" of action}" for client
+endif
+setting "_BESRelay_Diagnostics_Enable"="1" on "{parameter "action issue date" of action}" for client
+
+if {windows of operating system AND exists relay service}
+	waithidden net stop BESRelay
+	waithidden net start BESRelay
+endif
+
+</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

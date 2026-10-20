@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Config - Web Reports Setting - AllowCustomReportCreation - Windows</Title>
+		<Description><![CDATA[Web Reports: Allow users to create Custom Reports]]></Description>
+		<Relevance>windows of operating system</Relevance>
+		<Relevance>exists service "BESWebReportsServer"</Relevance>
+		<Relevance>not exists value "AllowCustomReportCreation" whose (it = "1") of key "HKLM\Software\BigFix\Enterprise Server\BESReports" of x32 registry</Relevance>
+		<Category></Category>
+		<Source>Internal</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2017-06-21</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-bfsync-source-actionsite</Name>
+			<Value>http://BES-Dev-Root:52311/cgi-bin/bfgather.exe/actionsite</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-bfsync-source-modification-time</Name>
+			<Value>Tue, 15 Nov 2022 16:17:09 +0000</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-bfsync-source-id</Name>
+			<Value>432</Value>
+		</MIMEField>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Thu, 16 Feb 2023 16:29:26 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports]" "AllowCustomReportCreation"="1"
+
+// WebReports Service Needs restarted for this to take effect
+</ActionScript>
+		</DefaultAction>
+	</Fixlet>
+</BES>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Analysis>
+		<Title>BigFix Client - Evaluation Cycle</Title>
+		<Description><![CDATA[<P>This analysis provides detailed information on the BigFix Client Evaluation Cycle.</P>Based on prior work from jgstew at https://bigfix.me/analysis/details/2994765 and strawgate at https://bigfix.me/analysis/details/2998424 ]]></Description>
+		<Relevance><![CDATA[version of client > "8.0" and (if exists property "in proxy agent context" then not in proxy agent context else true)]]></Relevance>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Fri, 26 Jan 2024 17:44:35 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Property Name="Client Evaluation - Average Cycle" ID="1" EvaluationPeriod="PT6H">relative significance place 1 of (average of evaluationcycle of client as floating point / 1000 / 60)</Property>
+		<Property Name="Client Evaluation - Max Cycle" ID="2" EvaluationPeriod="PT6H">((maximum of it /1000* second)/minute) of evaluationcycle of client</Property>
+		<Property Name="Client Evaluation - CPU Throttles" ID="3" EvaluationPeriod="PT12H">(value of setting "_BESClient_Resource_WorkIdle" of client as string as integer | 10) + (value of setting "_BESClient_Resource_SleepIdle" of client  as string as integer | 480)</Property>
+		<Property Name="Client Evaluation - First Report Time" ID="4" EvaluationPeriod="P1D">minimum of subscribe times of sites</Property>
+		<Property Name="Client Evaluation - Evaluations Slower than 1 Minute" ID="5" EvaluationPeriod="PT1H"><![CDATA[it whose (preceding text of first ":" of it as floating point > 60 as floating point) of track fixlets whose (it contains "CustomSite" OR it as lowercase contains "opsite") of evaluationcycle of client]]></Property>
+		<Property Name="Client Evaluation - Evaluations Slower than 15 Minutes" ID="6" EvaluationPeriod="PT1H"><![CDATA[it whose (preceding text of first ":" of it as floating point > 900 as floating point) of track fixlets whose (it contains "CustomSite" OR it as lowercase contains "opsite") of evaluationcycle of client]]></Property>
+		<Property Name="Client Evaluation - Evaluations Slower than 1 Hour" ID="7"><![CDATA[it whose (preceding text of first ":" of it as floating point > 3600 as floating point) of track fixlets whose (it contains "CustomSite" OR it as lowercase contains "opsite") of evaluationcycle of client]]></Property>
+		<Property Name="Client Evaluation - Slow Evaluations with Times" ID="8" EvaluationPeriod="PT1H">track fixlets whose (it contains "CustomSite" OR it as lowercase contains "opsite") of evaluationcycle of client</Property>
+		<Property Name="Client Evaluation - Slow Evaluations" ID="9" EvaluationPeriod="PT1H">following texts of firsts ": " of track fixlets whose(it contains "CustomSite" OR it as lowercase contains "opsite") of evaluationcycle of client</Property>
+		<Property Name="Client Evaluation - Last UDP Ping" ID="10" EvaluationPeriod="PT1H">last command times of client</Property>
+		<Property Name="Client Evaluation - Receiving UDP Pings" ID="11" EvaluationPeriod="P1D"><![CDATA[exist last command time of client | exists lines containing " command received" of files whose (length of name of it = 12 and modification time of it > now - 2*day) of folders "Logs" of folders "__Global" of data folders of client]]></Property>
+	</Analysis>
+</BES>

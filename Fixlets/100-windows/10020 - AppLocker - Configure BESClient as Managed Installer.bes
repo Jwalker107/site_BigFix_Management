@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
-    <Task>
-        <Title>WDAC: Configure BESClient as a Managed Installer</Title>
-        <Description>Adds BESClient as a Managed Installer for Windows Defender Application Control </Description>
-        <Relevance>windows of operating system</Relevance>
-        <Relevance>if exists property "in proxy agent context" then not in proxy agent context else
-            true</Relevance>
-        <Relevance><![CDATA[version of operating system >= "6" as version]]></Relevance>
-        <Relevance>not (exists services "AppIDSvc" whose (state of it = "Running")) and not (exists
-            keys "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SrpV2\ManagedInstaller" of
-            native registry)</Relevance>
-        <Category></Category>
-        <Source>Internal</Source>
-        <SourceID></SourceID>
-        <SourceReleaseDate>2026-11-13</SourceReleaseDate>
-        <SourceSeverity></SourceSeverity>
-        <CVENames></CVENames>
-        <SANSID></SANSID>
-        <MIMEField>
-            <Name>x-fixlet-modification-time</Name>
-            <Value>Fri, 13 Nov 2026 18:42:59 +0000</Value>
-        </MIMEField>
-        <Domain>BESC</Domain>
-        <DefaultAction ID="Action1">
-            <Description>
-                <PreLink>Click </PreLink>
-                <Link>here</Link>
-                <PostLink> to deploy this action.</PostLink>
-            </Description>
-            <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[ 
+  <Task>
+    <Title>AppLocker: Configure BESClient as a Managed Installer</Title>
+    <Description><![CDATA[Adds BESClient as a Managed Installer for AppLocker<br>
+          Requires AppLocker to be enabled and running.  Note that AppLocker, unlike WDAC, is still available only on Enterprise, Eduction, or Server editions of Windows
+          AppLocker rulers can be leveraged by WDAC but not on Windows Professional or Business editions.<br>
+
+          ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property "in proxy agent context" then not in proxy agent context else
+      true</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6" as version]]></Relevance>
+    <Relevance>not (exists services "AppIDSvc" whose (state of it = "Running")) and not (exists
+      keys "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SrpV2\ManagedInstaller" of
+      native registry)</Relevance>
+    <Category></Category>
+    <Source>Internal</Source>
+    <SourceID></SourceID>
+    <SourceReleaseDate>2026-11-13</SourceReleaseDate>
+    <SourceSeverity></SourceSeverity>
+    <CVENames></CVENames>
+    <SANSID></SANSID>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Nov 2026 18:42:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[ 
 // 1. Disable 32-bit redirection so PowerShell, sc.exe, fsutil, and appidtel run natively in 64-bit context
 action uses wow64 redirection false
 
@@ -151,6 +155,6 @@ waithidden "{pathname of system folder}\WindowsPowerShell\v1.0\powershell.exe" -
 // 6. Fail the BigFix Action if the PowerShell verification exit code is non-zero
 continue if {exit code of action = 0}
 ]]></ActionScript>
-        </DefaultAction>
-    </Task>
+    </DefaultAction>
+  </Task>
 </BES>

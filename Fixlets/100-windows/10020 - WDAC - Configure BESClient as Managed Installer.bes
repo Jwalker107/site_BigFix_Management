@@ -45,7 +45,7 @@ $LogFile = "{parameter "LogPath"}"
 function Write-Log ($Message) {{
     $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     "$Timestamp - $Message" | Out-File -FilePath $LogFile -Append -Encoding UTF8
-}}
+}
 
 try {{
     Write-Log "Starting BigFix Managed Installer configuration..."
@@ -54,14 +54,14 @@ try {{
     $BesExe = "{parameter "BesExePath"}"
     if (-not (Test-Path "$BesExe")) {{
         throw "Could not locate BESClient.exe at $BesExe"
-    }}
+    }
     Write-Log "Found BESClient.exe at: $BesExe"
 
     # Extract Publisher info dynamically from the local BESClient.exe
     $AppInfo = Get-AppLockerFileInformation -Path "$BesExe"
     if (-not $AppInfo -or -not $AppInfo.Publisher) {{
         throw "Failed to read Authenticode publisher info from $BesExe"
-    }}
+    }
 
     $PubName = $AppInfo.Publisher.PublisherName
     $ProdName = $AppInfo.Publisher.ProductName
@@ -126,15 +126,15 @@ try {{
     if ($EaOutput -match "SMARTLOCKER\.ORIGINCLAIM") {{
         Write-Log "SUCCESS: Verified `$KERNEL.SMARTLOCKER.ORIGINCLAIM extended attribute is actively stamping files."
         exit 0
-    }} else {{
+    } else {{
         Write-Log "WARNING: Policy applied, but SMARTLOCKER.ORIGINCLAIM was not detected on probe file. Output: $EaOutput"
         exit 2
-    }}
-}}
+    }
+}
 catch {{
     Write-Log "ERROR: $($_.Exception.Message)"
     exit 1
-}}
+}
 __EOF_PS1__
 
 move __createfile "{parameter "PS1Path"}"

@@ -2,11 +2,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
     <Task>
         <Title>WDAC: Configure BESClient as a Managed Installer</Title>
-        <Description>Adds BESClient as a Managed Installer for Windows Defender Application Control</Description>
+        <Description>Adds BESClient as a Managed Installer for Windows Defender Application Control </Description>
         <Relevance>windows of operating system</Relevance>
-        <Relevance>if exists property "in proxy agent context" then not in proxy agent context else true</Relevance>
+        <Relevance>if exists property "in proxy agent context" then not in proxy agent context else
+            true</Relevance>
         <Relevance><![CDATA[version of operating system >= "6" as version]]></Relevance>
-        <Relevance><![CDATA[not (exists services "AppIDSvc" whose (state of it = "Running")) and not (exists keys "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SrpV2\ManagedInstaller" of native registry)]]></Relevance>
+        <Relevance>not (exists services "AppIDSvc" whose (state of it = "Running")) and not (exists
+            keys "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SrpV2\ManagedInstaller" of
+            native registry)</Relevance>
         <Category></Category>
         <Source>Internal</Source>
         <SourceID></SourceID>
@@ -14,7 +17,10 @@
         <SourceSeverity></SourceSeverity>
         <CVENames></CVENames>
         <SANSID></SANSID>
-
+        <MIMEField>
+            <Name>x-fixlet-modification-time</Name>
+            <Value>Fri, 13 Nov 2026 18:42:59 +0000</Value>
+        </MIMEField>
         <Domain>BESC</Domain>
         <DefaultAction ID="Action1">
             <Description>
@@ -117,17 +123,17 @@ try {{
     Start-Sleep -Seconds 3
 
     # Verification Step: Write a test dummy executable via this BESClient child process and inspect its Extended Attributes
-    $TestProbe = Join-Path (Split-Path $LogFile) "mi_probe_test.exe"
-    "MZ_DUMMY_PROBE" | Out-File -FilePath $TestProbe -Encoding ASCII -Force
-    
-    $EaOutput = & "$env:WINDIR\System32\fsutil.exe" file queryea $TestProbe 2>&1 | Out-String
-    Remove-Item -Path $TestProbe -Force -ErrorAction SilentlyContinue
+	$TestProbe = Join-Path (Split-Path $LogFile) "mi_probe_test.exe"
+	Copy-Item -Path "$env:WINDIR\System32\whoami.exe" -Destination $TestProbe -Force
+	$EaOutput = & "$env:WINDIR\System32\fsutil.exe" file queryea $TestProbe 2>&1 | Out-String
+	Remove-Item -Path $TestProbe -Force -ErrorAction SilentlyContinue
 
     if ($EaOutput -match "SMARTLOCKER\.ORIGINCLAIM") {{
         Write-Log "SUCCESS: Verified `$KERNEL.SMARTLOCKER.ORIGINCLAIM extended attribute is actively stamping files."
         exit 0
     } else {{
         Write-Log "WARNING: Policy applied, but SMARTLOCKER.ORIGINCLAIM was not detected on probe file. Output: $EaOutput"
+		Write-Log "This can occur if there is no AppLocker policy applied, or AppLocker is not available (i.e. Windows Pro); check AppLocker event log and Get-CimInstance -Namespace root\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard | Select-Object CodeIntegrityPolicyEnforcementStatus, UsermodeCodeIntegrityPolicyEnforcementStatus"
         exit 2
     }
 }
